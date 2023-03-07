@@ -1,0 +1,25 @@
+{
+    "loans":[
+        {
+            "id":1,
+            "borrowerId": "00001",
+            "borrowerName":"Robert",
+            "date": "2023-01-06",
+            "amount" : 1000
+        },
+        {
+            "id":2,
+            "borrowerId": "00002",
+            "borrowerName":"Robert",
+            "date": "2023-01-06",
+            "amount" : 2000
+        },
+        {
+            "id":3,
+            "borrowerId": "00003",
+            "borrowerName":"Robert",
+            "date": "2023-01-06",
+            "amount" : 3000
+        }
+    ]
+}
