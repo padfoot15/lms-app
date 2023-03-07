@@ -24,8 +24,8 @@ const LoansTable = () => {
                         </tr> 
                     </thead>
                     <tbody className="table-group-divider">
-                    {Object.entries(data).map(loan => {
-                        return <LoansContent key={loan[1]._id} loan={loan[1]} />
+                    {data.map(loan => {
+                        return <LoansContent key={loan._id} loan={loan} />
                     })}
                     </tbody>
                 </table>
