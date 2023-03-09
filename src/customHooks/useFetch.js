@@ -7,9 +7,7 @@ const  useFetch = (url) => {
 
     useEffect( ()=>{
         async function getBorrowers(){
-          const data = await axios.get(process.env.REACT_APP_API_URL + url)
-          console.log("ENV:",process.env.REACT_APP_API_URL)
-          console.log(data.data)
+          const data = await axios.get("https://blushing-overcoat-elk.cyclic.app/api" + url)
           setData(data.data)
           setLoading(false)
         }
