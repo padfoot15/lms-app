@@ -19,11 +19,11 @@ const MainTab = () => {
       <Tab eventKey="borrowers" title="Borrowers">
         <MainTable selected={"borrowers"}/>
       </Tab>
-      <Tab eventKey="services" title="Services">
-        <MainTable selected={"services"}/>
+      <Tab eventKey="payments" title="Payments">
+        <MainTable selected={"payments"}/>
       </Tab>
-      <Tab eventKey="solutions" title="Solutions">
-        <MainTable selected={"solutions"}/>
+      <Tab eventKey="investors" title="Investors">
+        <MainTable selected={"investors"}/>
       </Tab>
     </Tabs>
     </>

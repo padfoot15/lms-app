@@ -4,23 +4,66 @@ import axios from 'axios';
 
 
 const AddBorrower = () => {
-    const userData ={
-        firstName:"",
-        lastName:"",
-        address:"",
-        contactNumber:""
+    const userName={
+        firstName : "",
+        middleName : "",
+        lastName : ""
     }
-    const [user, setUser] = useState(userData)
+    const userAddress={
+        street : "",
+        brgy : "",
+        city : "",
+        zip : ""
+    }
+    const userContact={
+        email : "",
+        number : ""
+    }
+    const userBank={
+        bankName : "",
+        accountName : "",
+        accountNumber : ""
+    }
+    const userWork={
+        jobTitle:"",
+        employer : "",
+        employmentYear: "",
+        coe: ""
+    }
+    const [name, setUserName] = useState(userName)
+    const [address, setUserAddress] = useState(userAddress)
+    const [contact, setUserContact] = useState(userContact)
+    const [bankAccount, setUserBank] = useState(userBank)
+    const [workDetails, setUserWork] = useState(userWork)
 
     async function handleSubmit(e){
-        console.log(user)
+        const userData ={
+            name,
+            address,
+            contact,
+            bankAccount,
+            workDetails
+        }
+        console.log(userData)
         e.preventDefault();
-        const res = await axios.post(process.env.REACT_APP_API_URL + "/borrowers",user)
+        const res = await axios.post(process.env.REACT_APP_API_URL + "/borrowers",userData)
         console.log(res)
     }
 
-    function handleChange(e){
-        setUser({...user,[e.target.id]:e.target.value})
+    function handleChangeName(e){
+        setUserName({...name,[e.target.id]:e.target.value})
+    }
+    function handleChangeAddress(e){
+        setUserAddress({...address,[e.target.id]:e.target.value})
+    }
+    function handleChangeContact(e){
+        setUserContact({...contact,[e.target.id]:e.target.value})
+    }
+    function handleChangeBank(e){
+        setUserBank({...bankAccount,[e.target.id]:e.target.value})
+    }
+    function handleChangeWork(e){
+        setUserWork({...workDetails,[e.target.id]:e.target.value})
     }
 
     return ( 
@@ -33,13 +76,13 @@ const AddBorrower = () => {
                     <div className="col">
                         <div className="form-group">
                             <label>First Name</label>
-                            <input value={user.firstName} type="input" className="form-control" id="firstName" placeholder="First Name" onChange={handleChange}/>
+                            <input value={name.firstName} type="input" className="form-control" id="firstName" placeholder="First Name" onChange={handleChangeName}/>
                         </div>
                     </div>
                     <div className="col">
                         <div className="form-group">
                             <label>Last Name</label>
-                            <input value={user.lastName} type="input" className="form-control" id="lastName" placeholder="Last Name" onChange={handleChange}/>
+                            <input value={name.lastName} type="input" className="form-control" id="lastName" placeholder="Last Name" onChange={handleChangeName}/>
                         </div>
                     </div>                
                 </div>
@@ -47,13 +90,13 @@ const AddBorrower = () => {
                     <div className="col">
                         <div className="form-group">
                             <label>Email</label>
-                            <input type="text" className="form-control" id="email" placeholder="abc@mail.com"/>
+                            <input value={contact.email} type="text" className="form-control" id="email" placeholder="abc@mail.com" onChange={handleChangeContact}/>
                         </div>
                     </div>
                     <div className="col">
                         <div className="form-group">
                             <label>Contact</label>
-                            <input value={user.contactNumber} type="text" className="form-control" id="contactNumber" placeholder="(+63)1234-567-890" onChange={handleChange}/>
+                            <input value={contact.number} type="text" className="form-control" id="number" placeholder="(+63)1234-567-890" onChange={handleChangeContact}/>
                         </div>
                     </div>
                 </div>
@@ -61,7 +104,7 @@ const AddBorrower = () => {
                     <div className="col">
                         <div className="form-group">
                             <label>Street Address</label>
-                            <input value={user.address} type="text" className="form-control" id="address" placeholder="#123 Juan Street" onChange={handleChange}/>
+                            <input value={address.street} type="text" className="form-control" id="street" placeholder="#123 Juan Street" onChange={handleChangeAddress}/>
                         </div>
                     </div>                                                            
                 </div>
@@ -69,19 +112,19 @@ const AddBorrower = () => {
                         <div className="col">
                             <div className="form-group">
                                 <label>Barangay</label>
-                                <input type="text" className="form-control" id="brgy" placeholder="Barangay"/>
+                                <input value={address.brgy} type="text" className="form-control" id="brgy" placeholder="Barangay" onChange={handleChangeAddress}/>
                             </div>
                         </div>
                         <div className="col-3">
                             <div className="form-group">
                                 <label>City</label>
-                                <input type="text" className="form-control" id="city" placeholder="City"/>
+                                <input value={address.city} type="text" className="form-control" id="city" placeholder="City" onChange={handleChangeAddress}/>
                             </div>
                         </div>
                         <div className="col-3">
                             <div className="form-group">
                                 <label>Zip Code</label>
-                                <input type="text" className="form-control" id="zip" placeholder="Zip"/>
+                                <input value={address.zip} type="text" className="form-control" id="zip" placeholder="Zip" onChange={handleChangeAddress}/>
                             </div>
                         </div>
                     </div>
@@ -89,13 +132,13 @@ const AddBorrower = () => {
                         <div className="col">
                             <div className="form-group">
                                 <label>Job Role</label>
-                                <input type="text" className="form-control" id="job" placeholder="e.g. CSR"/>
+                                <input value={workDetails.jobTitle} type="text" className="form-control" id="jobTitle" placeholder="e.g. CSR" onChange={handleChangeWork}/>
                             </div>
                         </div>
                         <div className="col">
                             <div className="form-group">
                                 <label>Employer</label>
-                                <input type="text" className="form-control" id="job" placeholder="e.g. Accenture"/>
+                                <input value={workDetails.employer} type="text" className="form-control" id="employer" placeholder="e.g. Accenture" onChange={handleChangeWork}/>
                             </div>
                         </div>
                         <div className="col">
