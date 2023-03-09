@@ -8,6 +8,7 @@ const  useFetch = (url) => {
     useEffect( ()=>{
         async function getBorrowers(){
           const data = await axios.get(process.env.REACT_APP_API_URL + url)
+          console.log("ENV:",process.env.REACT_APP_API_URL)
           console.log(data.data)
           setData(data.data)
           setLoading(false)
