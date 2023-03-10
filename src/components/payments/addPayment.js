@@ -1,9 +1,7 @@
 import { useState } from "react";
 import axios from 'axios';
 
-
-
-const AddBorrower = () => {
+const AddPayment = () => {
     const userName={
         firstName : "",
         middleName : "",
@@ -70,7 +68,7 @@ const AddBorrower = () => {
         <div className="container border border-light border-5 mb-2">
             <form onSubmit={handleSubmit}>
                 <div className="row mb-5">
-                    <h2>Borrower's Information</h2>
+                    <h2>Payment Information</h2>
                 </div>
                 <div className="row mb-3">
                     <div className="col">
@@ -163,4 +161,4 @@ const AddBorrower = () => {
      );
 }
  
-export default AddBorrower;
+export default AddPayment;

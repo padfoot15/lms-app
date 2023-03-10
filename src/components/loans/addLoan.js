@@ -1,7 +1,8 @@
-
+import useFetch from '../../customHooks/useFetch';
 
 const AddLoan = () => {
-
+    const {data, loading} = useFetch('/borrowers')
+    if(loading)return <h1>Loading...</h1>
     return ( 
         <>   
         <div className="container border border-light border-5 mb-2">
@@ -10,24 +11,47 @@ const AddLoan = () => {
                     <h2>Loan Information</h2>
                 </div>
                 <div className="row mb-3">
-                    <div className="col">
-                        <div className="form-group">
-                            <label>First Name</label>
-                            <input type="input" className="form-control" id="firstName" placeholder="First Name"/>
-                        </div>
+                    <div className="col-4">
+                    <div className="form-group">
+                                <label>Borrower</label>
+                                <select className="form-control" id="borrower">
+                                    {data.map(borrower => {
+                                        return <option key={borrower._id}>{borrower.name.firstName + " " + borrower.name.lastName}</option>
+                                    })
+                                    }
+                                </select>
+                            </div>
                     </div>
-                    <div className="col">
+                    <div className='col-2'></div>
+                    <div className="col-3">
                         <div className="form-group">
-                            <label>Last Name</label>
-                            <input type="input" className="form-control" id="lastName" placeholder="Last Name"/>
+                            <label>Amount</label>
+                                <select className="form-control" id="amount">
+                                    <option>Php 1000</option>
+                                    <option>Php 2000</option>
+                                    <option>Php 3000</option>
+                                    <option>Php 5000</option>
+                                    <option>Php 10000</option>
+                                </select>
                         </div>
                     </div>                
                 </div>
                 <div className="row mb-3">
-                    <div className="col">
+                    <div className="col-3">
                         <div className="form-group">
-                            <label>Email</label>
-                            <input type="text" className="form-control" id="email" placeholder="abc@mail.com"/>
+                        <label>Monthly Interest Rate</label>
+                                <select className="form-control" id="amount">
+                                    <option>0%</option>
+                                    <option>4%</option>
+                                    <option>6%</option>
+                                    <option>10%</option>
+                                </select>
+                        </div>
+                    </div>
+                    <div className="col-3">
+                        <div className="form-group">
+                        <label>Monthly Interest Amount</label>
+                        <input type="text" className="form-control" id="interestAmount" readOnly/>
                         </div>
                     </div>
                     <div className="col">

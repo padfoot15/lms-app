@@ -4,6 +4,8 @@ import AddLoan from './loans/addLoan';
 import BorrowersTable from './borrowers/borrowersTbl';
 import LoansTable from './loans/loansTbl';
 import { useState } from 'react';
+import PaymentsTable from './payments/paymentsTbl';
+import AddPayment from './payments/addPayment';
 
 
 const MainTable = ({selected}) => {
@@ -38,6 +40,12 @@ const MainTable = ({selected}) => {
           return <LoansTable />
         }
         
+      }else if(selected==='payments'){
+        if(control.showNew){        
+          return <AddPayment />
+        }else{        
+          return <PaymentsTable />
+        }        
       }
       else{
         return <h1>{`No content yet for ${selected}`}</h1>
