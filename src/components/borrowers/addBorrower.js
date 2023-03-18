@@ -44,12 +44,14 @@ const AddBorrower = () => {
             bankAccount,
             workDetails
         }
-        console.log(userData)
         e.preventDefault();
         const res = await axios.post(process.env.REACT_APP_API_URL + "/borrowers",userData)
-        console.log(res)
+        setUserName(userName)
+        setUserAddress(userAddress)
+        setUserContact(userContact)
+        setUserBank(userBank)
+        setUserWork(userWork)
     }
-
     function handleChangeName(e){
         setUserName({...name,[e.target.id]:e.target.value})
     }
