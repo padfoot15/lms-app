@@ -14,10 +14,12 @@ const AddLoan = () => {
         paymentChannel : "",
         status : ""
     }
+    const [borrower, setBorrower] = useState('')
     const [payment , setPayment] = useState(paymentData)
-    const {data, loading} = useFetch('/borrowers')
+    const {data, loading} = useFetch('/loans/active')                                     
+
     if(loading)return <h1>Loading...</h1>   
-    
+
     async function handleSubmit(e){
         e.preventDefault();
         await axios.post(process.env.REACT_APP_API_URL + "/payments",payment)
@@ -25,37 +27,30 @@ const AddLoan = () => {
         setPayment(paymentData)
     }
 
-    function handleChange(e){       
-        let principalPaid = 0
-        switch (e.target.id) {
-            case 'amount':
-                if(isNaN(e.target.value))(
-                    e.target.value = 0
-                )
-                principalPaid = parseInt(e.target.value) - parseInt(payment.interestPaid) - parseInt(payment.feesPaid)
-                break;
-            case 'interestPaid':
-                if(isNaN(e.target.value))(
-                    e.target.value = 0
-                )
-                principalPaid = parseInt(payment.amount) - parseInt(e.target.value) - parseInt(payment.feesPaid)
-                break;
-            case 'feesPaid':
-                if(isNaN(e.target.value))(
-                    e.target.value = 0
-                )
-                principalPaid = parseInt(payment.amount) - parseInt(payment.interestPaid) - parseInt(e.target.value)
-                break;
-            default:
-                break;
-        }
-        if(isNaN(principalPaid)){
-            principalPaid = 0
+    async function handleChange(e){       
+        let principalPaid = payment.principalPaid
+        let borrowerId = payment.borrowerId;
+
+        if(e.target.id === 'amount' || e.target.id === 'interestPaid' || e.target.id === 'feesPaid'){ 
+            
+            e.target.value = isNaN(e.target.value) ? 0 : e.target.value
+            const amount = e.target.id==='amount' ? parseInt(e.target.value) : payment.amount
+            const interestPaid = e.target.id==='interestPaid' ? parseInt( e.target.value) : payment.interestPaid
+            const feesPaid = e.target.id==='feesPaid' ? parseInt( e.target.value ) : payment.feesPaid
+            principalPaid = amount - interestPaid - feesPaid
+            principalPaid = isNaN(principalPaid) ? payment.principalPaid : principalPaid
         }
 
-        setPayment({...payment,[e.target.id]:e.target.value,principalPaid})
+        if(e.target.id==='loanId'){
+            const borrower = data.filter(loan => loan._id === e.target.value)[0]
+            borrowerId = borrower.borrowerId._id   
+            const fullName = borrower.borrowerId.name.firstName + ' ' + borrower.borrowerId.name.lastName
+            setBorrower(fullName)                
+        }
+
+        setPayment({...payment,[e.target.id]:e.target.value,principalPaid,borrowerId})
     }
-    console.log(payment)
+  
     return ( 
         <>   
         <div className="container border border-light border-5 mb-2">
@@ -68,19 +63,19 @@ const AddLoan = () => {
                     <div className="col-3">
                         <div className="form-group">
                             <label>Date</label>
-                            <input type="date" className='form-control' id='date' value={payment.date} onChange={handleChange} />                                                
+                            <input type="date" className='form-control' id='date' value={payment.date} placeholder="0" onChange={handleChange} />                                                
                         </div>
                     </div>
                     <div className="col-3">
                         <div className="form-group">
                             <label>Amount</label>
-                            <input type="text" className='form-control' id='amount' value={payment.amount} onChange={handleChange} /> 
+                            <input type="text" className='form-control' id='amount' value={payment.amount} placeholder="0" onChange={handleChange} /> 
                         </div>
                     </div>    
                     <div className="col-3">
                         <div className="form-group">
                             <label>Interest Paid</label>
-                            <input type="text" className='form-control' id='interestPaid' value={payment.interestPaid} onChange={handleChange} /> 
+                            <input type="text" className='form-control' id='interestPaid' value={payment.interestPaid} placeholder="0" onChange={handleChange} /> 
                         </div>
                     </div>            
                 </div>
@@ -90,26 +85,25 @@ const AddLoan = () => {
                     <div className="col-3">
                         <div className="form-group">
                             <label>Fees Paid</label>
-                            <input type="text" className='form-control' id='feesPaid' value={payment.feesPaid} onChange={handleChange} /> 
+                            <input type="text" className='form-control' id='feesPaid' value={payment.feesPaid} placeholder="0" onChange={handleChange} /> 
                         </div>                        
                     </div>
                     <div className="col-3">
                         <div className="form-group">
                             <label>Principal Paid</label>
-                            <input type="text" className='form-control' id='principalPaid' value={payment.principalPaid} readOnly /> 
+                            <input type="text" className='form-control' id='principalPaid' value={payment.principalPaid} placeholder="0" disabled /> 
                         </div>
                     </div>   
                     <div className="col-3">
                         <div className="form-group">
-                        <label>Borrower</label>
-                                <select className="form-control" id="borrowerId" value={payment.borrowerId} onChange={handleChange}>
-                                    <option value="" hidden>Select borrower...</option>
-                                    {data.map(borrower => {
-                                        const fullName = borrower.name.firstName + " " + borrower.name.lastName
-                                        return <option value={borrower._id} key={borrower._id}>{fullName}</option>
+                            <label>Loan ID</label>
+                            <select className="form-control" id="loanId" value={payment.loanId} onChange={handleChange}>
+                                <option value="" hidden>Select loan...</option>
+                                    {data.map(loan => {
+                                        return <option value={loan._id} key={loan._id}>{loan._id}</option>
                                     })
                                     }
-                                </select>
+                            </select>
                         </div>
                     </div>                      
                 </div>
@@ -117,15 +111,8 @@ const AddLoan = () => {
                     <div className="col-1"></div>
                     <div className="col-3">
                         <div className="form-group">
-                            <label>Loan ID</label>
-                            <select className="form-control" id="loanId" value={payment.loanId} onChange={handleChange}>
-                                <option value="" hidden>Select loan...</option>
-                                    {data.map(borrower => {
-                                        const fullName = borrower.name.firstName + " " + borrower.name.lastName
-                                        return <option value={borrower._id} key={borrower._id}>{fullName}</option>
-                                    })
-                                    }
-                                </select>                                              
+                            <label>Borrower</label>
+                            <input type="text" className='form-control' id='borrowerId' value={borrower} disabled />                                                                            
                         </div>
                     </div>
                     <div className="col-3">
