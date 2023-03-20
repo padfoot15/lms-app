@@ -18,7 +18,7 @@ const LoansTable = () => {
                         <tr>
                             <th  scope="col">ID</th>
                             <th  scope="col">Borrower Name</th>
-                            <th  scope="col">Amount</th>
+                            <th  scope="col">Loan Amount</th>
                             <th  scope="col">Monthly Interest Rate</th>
                             <th  scope="col">Monthly Interest Amount</th>
                             <th  scope="col">Term</th>

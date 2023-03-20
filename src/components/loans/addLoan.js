@@ -14,12 +14,17 @@ const AddLoan = () => {
         dueDate : "",
         balance : "",
         payments : [],
-        status : ""
+        status : "in-progress"
     }
     const [loan , setLoan] = useState(loanData)
     const {data, loading} = useFetch('/borrowers')
-    if(loading)return <h1>Loading...</h1>   
-    
+    if(loading)return <h1>Loading...</h1>       
+
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'PHP',
+      });
+
     async function handleSubmit(e){
         e.preventDefault();
         await axios.post(process.env.REACT_APP_API_URL + "/loans",loan)
@@ -27,28 +32,23 @@ const AddLoan = () => {
     }
 
     function handleChange(e){
-        let interestAmount = loan.interestAmount;
-        let monthlyDue = loan.monthlyDue;
+        let interestAmount = loan.interestAmount//interest amount per month  
+        let monthlyDue = loan.monthlyDue //monthly due payment
+        let balance = loan.balance //total balance
         
-        switch (e.target.id) {
-            case "amount":
-                interestAmount = (parseInt(e.target.value) * (parseInt(loan.interestRate) / 100))      
-                monthlyDue = (parseInt(e.target.value) + (parseInt(e.target.value) * (parseInt(loan.interestRate) / 100 ))) / parseInt(loan.term)
-                break;         
-            case "interestRate":
-                interestAmount = (parseInt(loan.amount) * (parseInt(e.target.value) / 100))
-                monthlyDue = (parseInt(loan.amount) + (parseInt(loan.amount) * (parseInt(e.target.value) / 100))) / parseInt(loan.term)
-                break;               
-            case "term":
-                monthlyDue = (parseInt(loan.amount) + (parseInt(loan.amount) * (parseInt(loan.interestRate) / 100 ))) / parseInt(e.target.value)
-                break;
-            default:
-                break;
+        if(e.target.id ==='amount' || e.target.id ==='interestRate' || e.target.id ==='term'){
+            const amount = parseInt(e.target.id==='amount' ? e.target.value : loan.amount);
+            const interestRate = parseInt(e.target.id==='interestRate' ? e.target.value : loan.interestRate) / 100
+            const term = parseInt(e.target.id==='term' ? e.target.value : loan.term)
+            interestAmount = amount * interestRate //interest amount per month  
+            const totalInterestAmount = interestAmount * term //total interest amount for the term 
+            monthlyDue = ((amount + totalInterestAmount) / term).toFixed(2) //monthly due payment, round off to 2 decimal places
+            balance = amount + totalInterestAmount //total balance
         }
-        setLoan({...loan,[e.target.id]:e.target.value,interestAmount,monthlyDue})
-
+        
+        setLoan({...loan,[e.target.id]:e.target.value,interestAmount,monthlyDue,balance})
     }
-
+    
     return ( 
         <>   
         <div className="container border border-light border-5 mb-2">
@@ -73,14 +73,14 @@ const AddLoan = () => {
                     </div>
                     <div className="col-3">
                         <div className="form-group">
-                            <label>Amount (PHP)</label>
+                            <label>Loan Amount</label>
                                 <select className="form-control" value={loan.amount} id="amount" onChange={handleChange}>
                                     <option value="0" hidden>Select amount...</option>
-                                    <option value="1000">1000</option>
-                                    <option value="2000">2000</option>
-                                    <option value="3000">3000</option>
-                                    <option value="5000">5000</option>
-                                    <option value="10000">10000</option>
+                                    <option value="1000">{formatter.format(1000)}</option>
+                                    <option value="2000">{formatter.format(2000)}</option>
+                                    <option value="3000">{formatter.format(3000)}</option>
+                                    <option value="5000">{formatter.format(5000)}</option>
+                                    <option value="10000">{formatter.format(10000)}</option>
                                 </select>
                         </div>
                     </div>    
@@ -116,13 +116,13 @@ const AddLoan = () => {
                     <div className="col-3">
                         <div className="form-group">
                         <label>Monthly Interest Amount</label>
-                        <input type="text" className="form-control" id="interestAmount" value={loan.interestAmount} readOnly/>
+                        <input type="text" className="form-control" id="interestAmount" value={formatter.format(loan.interestAmount)} readOnly/>
                         </div>
                     </div>   
                     <div className="col-3">
                         <div className="form-group">
                         <label>Monthly Due</label>
-                        <input type="text" className="form-control" id="monthlyDue" value={loan.monthlyDue} readOnly/>
+                        <input type="text" className="form-control" id="monthlyDue" value={formatter.format(loan.monthlyDue)} readOnly/>
                         </div>
                     </div>                      
                 </div>
