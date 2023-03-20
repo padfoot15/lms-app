@@ -22,7 +22,7 @@ const AddLoan = () => {
     
     async function handleSubmit(e){
         e.preventDefault();
-        const res = await axios.post(process.env.REACT_APP_API_URL + "/loans",loan)
+        await axios.post(process.env.REACT_APP_API_URL + "/loans",loan)
         setLoan(loanData)
     }
 
