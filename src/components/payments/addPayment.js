@@ -14,22 +14,48 @@ const AddLoan = () => {
         paymentChannel : "",
         status : ""
     }
+    const [errorMsg, setErrorMsg] = useState('')
     const [borrower, setBorrower] = useState('')
     const [payment , setPayment] = useState(paymentData)
     const {data, loading} = useFetch('/loans/active')                                     
 
-    if(loading)return <h1>Loading...</h1>   
-
+    if(loading)return <h1>Loading...</h1> 
+    
     async function handleSubmit(e){
         e.preventDefault();
-        await axios.post(process.env.REACT_APP_API_URL + "/payments",payment)
-        //clear state
-        setPayment(paymentData)
+        if(parseInt(payment.amount) <= 0 || isNaN(parseInt(payment.amount)) ){            
+            setErrorMsg("***Amount should be more than 0")        
+        }else if(payment.date === ''){
+            setErrorMsg("***Date is required")        
+        }else if(payment.loanId === ''){
+            setErrorMsg("***Loan ID is required")        
+        }else if(payment.paymentChannel === ''){
+            setErrorMsg("***Payment channel is required")        
+        }else if(payment.status === ''){
+            setErrorMsg("***Status is required")        
+        }else{
+             //add payment
+             await axios.post(process.env.REACT_APP_API_URL + "/payments",payment)
+             //update balance        
+             let balance = data.filter(loan => loan._id === payment.loanId)[0].balance
+             balance = parseInt(balance) - payment.principalPaid - payment.interestPaid
+             console.log("balance:",balance) 
+             await axios.put(process.env.REACT_APP_API_URL + "/loans/update",null,
+             {
+                 params:{
+                     balance,
+                     id:payment.loanId
+                 }
+             })
+             //clear state
+             setPayment(paymentData)
+        }
+        
     }
 
     async function handleChange(e){       
         let principalPaid = payment.principalPaid
-        let borrowerId = payment.borrowerId;
+        let borrowerId = payment.borrowerId;    
 
         if(e.target.id === 'amount' || e.target.id === 'interestPaid' || e.target.id === 'feesPaid'){ 
             
@@ -45,18 +71,25 @@ const AddLoan = () => {
             const borrower = data.filter(loan => loan._id === e.target.value)[0]
             borrowerId = borrower.borrowerId._id   
             const fullName = borrower.borrowerId.name.firstName + ' ' + borrower.borrowerId.name.lastName
-            setBorrower(fullName)                
+            setBorrower(fullName)                           
         }
 
         setPayment({...payment,[e.target.id]:e.target.value,principalPaid,borrowerId})
+       
     }
-  
+    
     return ( 
         <>   
         <div className="container border border-light border-5 mb-2">
             <form onSubmit={handleSubmit}>
-                <div className="row mb-5">
-                    <h2>Payment</h2>
+                <div className="row mb-5">                    
+                    <div className='col-4'>
+                        <h2>Payment</h2>
+                    </div>
+                    <div className='col-1'></div>
+                    <div className='col'>
+                        <p style={{color:"red",fontStyle:"italic"}}>{errorMsg}</p>
+                    </div>                    
                 </div>
                 <div className="row mb-3">
                     <div className='col-1'></div>
@@ -142,7 +175,7 @@ const AddLoan = () => {
                     <div className="d-flex justify-content-center">
                             <button type="submit" className="btn btn-primary">Submit</button>
                     </div>                
-            </form>
+            </form>            
         </div>         
         </>
      );

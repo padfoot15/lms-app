@@ -14,8 +14,9 @@ const AddLoan = () => {
         dueDate : "",
         balance : "",
         payments : [],
-        status : "in-progress"
+        status : "In-progress"
     }
+    const [errorMsg, setErrorMsg] = useState('')
     const [loan , setLoan] = useState(loanData)
     const {data, loading} = useFetch('/borrowers')
     if(loading)return <h1>Loading...</h1>       
@@ -27,8 +28,18 @@ const AddLoan = () => {
 
     async function handleSubmit(e){
         e.preventDefault();
-        await axios.post(process.env.REACT_APP_API_URL + "/loans",loan)
-        setLoan(loanData)
+        if(loan.borrowerId === ''){            
+            setErrorMsg("***Borrower is required")        
+        }else if(loan.amount === '0'){
+            setErrorMsg("***Amount is required")        
+        }else if(loan.startDate === ''){
+            setErrorMsg("***Start date is required")        
+        }else if(loan.dueDate === ''){
+            setErrorMsg("***Due date is required")        
+        }else{
+            await axios.post(process.env.REACT_APP_API_URL + "/loans",loan)
+            setLoan(loanData)
+        }
     }
 
     function handleChange(e){
@@ -48,13 +59,19 @@ const AddLoan = () => {
         
         setLoan({...loan,[e.target.id]:e.target.value,interestAmount,monthlyDue,balance})
     }
-    
+    console.log(loan)
     return ( 
         <>   
         <div className="container border border-light border-5 mb-2">
             <form onSubmit={handleSubmit}>
                 <div className="row mb-5">
-                    <h2>Loan Information</h2>
+                    <div className='col-4'>
+                        <h2>Loan Information</h2>
+                    </div>
+                    <div className='col-1'></div>
+                    <div className='col-4'>
+                        <p style={{color:"red",fontStyle:"italic"}}>{errorMsg}</p>
+                    </div>
                 </div>
                 <div className="row mb-3">
                     <div className='col-1'></div>

@@ -37,6 +37,7 @@ const AddBorrower = () => {
         birthDate:"",
         validIds:""
     }
+    const [errorMsg, setErrorMsg] = useState('')
     const [name, setUserName] = useState(userName)
     const [address, setUserAddress] = useState(userAddress)
     const [contact, setUserContact] = useState(userContact)
@@ -45,22 +46,64 @@ const AddBorrower = () => {
     const [otherInfo, setUserOtherInfo] = useState(userOtherInfo)
 
     async function handleSubmit(e){
-        const userData ={
-            name,
-            address,
-            contact,
-            bankAccount,
-            workDetails,
-            validIds:otherInfo.validIds,
-            birthDate:otherInfo.birthDate
-        }
         e.preventDefault();
-        await axios.post(process.env.REACT_APP_API_URL + "/borrowers",userData)
-        setUserName(userName)
-        setUserAddress(userAddress)
-        setUserContact(userContact)
-        setUserBank(userBank)
-        setUserWork(userWork)
+        if(name.firstName === ''){            
+            setErrorMsg("***First name is required")        
+        }else if(name.lastName === '0'){
+            setErrorMsg("***Last name is required")        
+        }else if(contact.email === ''){
+            setErrorMsg("***Email is required")        
+        }else if(contact.number === ''){
+            setErrorMsg("***Contact number is required")        
+        }else if(otherInfo.birthDate === ''){
+            setErrorMsg("***Birth date is required")        
+        }else if(otherInfo.validIds === ''){
+            setErrorMsg("***Valid IDs is required")        
+        }else if(address.street === ''){
+            setErrorMsg("***Street is required")        
+        }else if(address.city === ''){
+            setErrorMsg("***City is required")        
+        }else if(address.brgy === ''){
+            setErrorMsg("***Barangay is required")        
+        }else if(address.zip === ''){
+            setErrorMsg("***Zip code is required")        
+        }else if(workDetails.jobTitle === ''){
+            setErrorMsg("***Job role is required")        
+        }else if(workDetails.employer === ''){
+            setErrorMsg("***Employer is required")        
+        }else if(workDetails.employmentYear === ''){
+            setErrorMsg("***Years in current employer is required")        
+        }else if(workDetails.id === ''){
+            setErrorMsg("***Company ID is required")        
+        }else if(workDetails.coe === ''){
+            setErrorMsg("***COE is required")        
+        }else if(workDetails.payslip === ''){
+            setErrorMsg("***Payslip is required")        
+        }else if(bankAccount.bankName === ''){
+            setErrorMsg("***Bank name is required")        
+        }else if(bankAccount.accountName === ''){
+            setErrorMsg("***Account name is required")        
+        }else if(bankAccount.accountNumber === ''){
+            setErrorMsg("***Account number is required")        
+        }else{
+            const userData ={
+                name,
+                address,
+                contact,
+                bankAccount,
+                workDetails,
+                validIds:otherInfo.validIds,
+                birthDate:otherInfo.birthDate
+            }
+            
+            await axios.post(process.env.REACT_APP_API_URL + "/borrowers",userData)
+            //clear states
+            setUserName(userName)
+            setUserAddress(userAddress)
+            setUserContact(userContact)
+            setUserBank(userBank)
+            setUserWork(userWork)
+        }
     }
     function handleChangeName(e){
         setUserName({...name,[e.target.id]:e.target.value})
@@ -81,12 +124,17 @@ const AddBorrower = () => {
         console.log(e.target.files)
         setUserOtherInfo({...otherInfo,[e.target.id]:e.target.value})
     }
-
     return ( 
         <div className="container border border-light border-5 mb-2">
             <form onSubmit={handleSubmit}>
-                <div className="row mb-5">
-                    <h2>Borrower's Information</h2>
+                <div className="row mb-5">                    
+                    <div className='col-4'>
+                        <h2>Borrower's Information</h2>
+                    </div>
+                    <div className='col-1'></div>
+                    <div className='col'>
+                        <p style={{color:"red",fontStyle:"italic"}}>{errorMsg}</p>
+                    </div>
                 </div>
                 <div className="row mb-2">
                     <h4>Basic Information</h4>
@@ -115,7 +163,7 @@ const AddBorrower = () => {
                     <div className="col">
                         <div className="form-group">
                             <label>Email</label>
-                            <input value={contact.email} type="text" className="form-control" id="email" placeholder="abc@mail.com" onChange={handleChangeContact}/>
+                            <input value={contact.email} type="email" className="form-control" id="email" placeholder="abc@mail.com" onChange={handleChangeContact}/>
                         </div>
                     </div>
                     <div className="col">

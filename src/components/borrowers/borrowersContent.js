@@ -1,7 +1,8 @@
 
-const BorrowersContent = ({borrower}) => {
+const BorrowersContent = ({borrower, index}) => {
     return(
         <tr>
+                <td>{index}</td>
                 <td>{borrower._id}</td>
                 <td>{borrower.name.firstName}</td>
                 <td>{borrower.name.middleName}</td>

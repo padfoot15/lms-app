@@ -14,6 +14,7 @@ const BorrowersTable = () => {
                 <table className="table table-striped table-hover table-bordered text-nowrap" >
                     <thead className="table-group-divider">
                         <tr>
+                            <th  scope="col">No.</th>
                             <th  scope="col">ID</th>
                             <th  scope="col">First Name</th>                            
                             <th  scope="col">Middle Name</th>
@@ -27,8 +28,8 @@ const BorrowersTable = () => {
                         </tr> 
                     </thead>
                     <tbody className="table-group-divider">
-                    {data.map(b => {
-                        return <BorrowersContent key={b._id} borrower={b} />
+                    {data.map((b,index) => {
+                        return <BorrowersContent key={b._id} index={index+1} borrower={b} />
                     })}
                     </tbody>
                 </table>

@@ -1,11 +1,12 @@
 
-const LoansContent = ({loan}) => {
+const LoansContent = ({loan, index}) => {
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'PHP',
       });
     return(
-        <tr>
+        <tr>    
+                <td>{index}</td>
                 <td>{loan._id}</td>
                 <td>{loan.borrowerId.name.firstName + " " + loan.borrowerId.name.lastName}</td>
                 <td>{formatter.format(loan.amount)}</td>

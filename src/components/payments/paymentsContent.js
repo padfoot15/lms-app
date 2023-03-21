@@ -1,7 +1,8 @@
 
-const PaymentsContent = ({payment}) => {
+const PaymentsContent = ({payment, index}) => {
     return(
         <tr>
+                <td>{index}</td>
                 <td>{payment._id}</td>
                 <td>{payment.date}</td>                
                 <td>{payment.amount}</td>
