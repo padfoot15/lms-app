@@ -12,17 +12,21 @@ const MainTab = () => {
       transition={false}
       id="noanim-tab-example"
       className="mb-3"
+      style={{
+        fontSize:"large"
+      }}
+      
     >
-      <Tab eventKey="loans" title="Loans">
+      <Tab eventKey="loans" title="LOANS">
         <MainTable selected={"loans"}/>
       </Tab>
-      <Tab eventKey="borrowers" title="Borrowers">
+      <Tab eventKey="borrowers" title="BORROWERS">
         <MainTable selected={"borrowers"}/>
       </Tab>
-      <Tab eventKey="payments" title="Payments">
+      <Tab eventKey="payments" title="PAYMENTS">
         <MainTable selected={"payments"}/>
       </Tab>
-      <Tab eventKey="investors" title="Investors">
+      <Tab eventKey="investors" title="INVESTORS">
         <MainTable selected={"investors"}/>
       </Tab>
     </Tabs>
