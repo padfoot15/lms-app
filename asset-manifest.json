@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/lms-app/static/css/main.b3a6249e.css",
-    "main.js": "/lms-app/static/js/main.3297e508.js",
+    "main.js": "/lms-app/static/js/main.0dbfd20f.js",
     "static/js/787.9a0ab4d0.chunk.js": "/lms-app/static/js/787.9a0ab4d0.chunk.js",
     "index.html": "/lms-app/index.html",
     "main.b3a6249e.css.map": "/lms-app/static/css/main.b3a6249e.css.map",
-    "main.3297e508.js.map": "/lms-app/static/js/main.3297e508.js.map",
+    "main.0dbfd20f.js.map": "/lms-app/static/js/main.0dbfd20f.js.map",
     "787.9a0ab4d0.chunk.js.map": "/lms-app/static/js/787.9a0ab4d0.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b3a6249e.css",
-    "static/js/main.3297e508.js"
+    "static/js/main.0dbfd20f.js"
   ]
 }
