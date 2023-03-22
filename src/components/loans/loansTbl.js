@@ -6,10 +6,19 @@ import {  useState } from 'react';
 
 const LoansTable = () => {  
     const {data, loading} = useFetch('/loans')    
-    const [filter, setFilter] = useState('in-progress')
-
+    const [filter, setFilter] = useState('status')
+    const [search, setSearch] = useState('')
     if(loading) return <h1>Loading...</h1>
 
+    function filterTbl(records){
+        if (filter === 'borrowerName'){
+            return (records.borrowerId.name.firstName).toLowerCase().includes(search) ||
+                   (records.borrowerId.name.lastName).toLowerCase().includes(search)
+        }else if (filter === 'status'){
+            return (records.status).toLowerCase().includes(search)
+        }
+        return data
+    }
     
         return (
             <>                
@@ -18,14 +27,14 @@ const LoansTable = () => {
                 </div>                    
                 <div className="mb-2">
                     <div className='ms-5'>
-                        <label className='me-1'>Status</label>
-                        <select onChange={(e) => setFilter(e.target.value) } value={filter}>
-                            <option value="all">All</option>
-                            <option value="Complete">Complete</option>
-                            <option value="in-progress">In-Progress</option>
-                        </select>                  
+                        <label className='me-1' >Search by</label>
+                        <select className='me-1'value={filter} onChange={(e)=>setFilter(e.target.value)} >
+                            <option value='status'>Status</option>
+                            <option value='borrowerName'>Borrower Name</option>
+                        </select>
+                        <input type='text' value={search.toLowerCase()} onChange={(e)=>setSearch(e.target.value)}/>                 
                     </div>                                                 
-                </div>
+                </div>   
                 <div className="table-responsive table-wrapper-scroll-y my-custom-scrollbar mx-5">            
                 <table className="table table-striped table-hover table-bordered text-nowrap">
                     <thead className="table-group-divider">
@@ -45,10 +54,7 @@ const LoansTable = () => {
                         </tr> 
                     </thead>
                     <tbody className="table-group-divider">
-                    {data.filter(loans => {
-                        if(filter === 'all') return data                       
-                        return loans.status === filter
-                    }).map((loan,index) => {
+                    {data.filter(records => filterTbl(records)).map((loan,index) => {
                         return <LoansContent key={loan._id} index={index+1} loan={loan} />
                     })}
                     </tbody>
