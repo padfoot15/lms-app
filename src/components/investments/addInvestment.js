@@ -2,7 +2,7 @@ import { useState } from 'react';
 import useFetch from '../../customHooks/useFetch';
 import axios from 'axios';
 
-const AddPayment = () => {
+const AddInvestment = () => {
     const paymentData = {
         date : "",
         amount : "0",
@@ -191,4 +191,4 @@ const AddPayment = () => {
      );
 }
  
-export default AddPayment;
+export default AddInvestment;

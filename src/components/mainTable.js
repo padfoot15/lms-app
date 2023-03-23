@@ -8,6 +8,8 @@ import PaymentsTable from './payments/paymentsTbl';
 import AddPayment from './payments/addPayment';
 import AddInvestor from './investors/addInvestor';
 import InvestorsTable from './investors/investorsTbl';
+import InvestmentsTable from './investments/investmentsTbl';
+import AddInvestment from './investments/addInvestment';
 
 
 const MainTable = ({selected}) => {
@@ -54,8 +56,13 @@ const MainTable = ({selected}) => {
           }else{        
             return <InvestorsTable />
           }        
-        }
-        else{
+        }else if(selected==='investments'){
+          if(control.showNew){        
+            return <AddInvestment />
+          }else{        
+            return <InvestmentsTable />
+          }        
+        }else{
           return <h1>{`No content yet for ${selected}`}</h1>
         }
       }
