@@ -38,10 +38,10 @@ const InvestorsTable = () => {
                             <th  scope="col">First Name</th>                            
                             <th  scope="col">Middle Name</th>
                             <th  scope="col">Last Name</th>
-                            <th  scope="col">Street Address</th>
-                            <th  scope="col">Brgy Address</th>
-                            <th  scope="col">City Address</th>
-                            <th  scope="col">Zip Address</th>
+                            <th  scope="col">Street</th>
+                            <th  scope="col">Brgy</th>
+                            <th  scope="col">City</th>
+                            <th  scope="col">Zip Code</th>
                             <th  scope="col">Contact Number</th>
                             <th  scope="col">Email Address</th>
                         </tr> 
