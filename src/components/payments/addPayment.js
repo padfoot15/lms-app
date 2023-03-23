@@ -35,20 +35,30 @@ const AddLoan = () => {
             setErrorMsg("***Status is required")        
         }else{
              //add payment
-             await axios.post(process.env.REACT_APP_API_URL + "/payments",payment)
-             //update balance        
-             let balance = data.filter(loan => loan._id === payment.loanId)[0].balance
-             balance = parseInt(balance) - payment.principalPaid - payment.interestPaid
-             console.log("balance:",balance) 
-             await axios.put(process.env.REACT_APP_API_URL + "/loans/update",null,
-             {
-                 params:{
-                     balance,
-                     id:payment.loanId
-                 }
-             })
-             //clear state
-             setPayment(paymentData)
+             try {
+                await axios.post(process.env.REACT_APP_API_URL + "/payments",payment)
+                //update balance        
+                let balance = data.filter(loan => loan._id === payment.loanId)[0].balance
+                balance = parseInt(balance) - payment.principalPaid - payment.interestPaid                
+                try {
+                    await axios.put(process.env.REACT_APP_API_URL + "/loans/update",null,
+                    {
+                        params:{
+                            balance,
+                            id:payment.loanId
+                        }
+                    })
+                    //clear state
+                    setPayment(paymentData)
+                    setErrorMsg('')
+                } catch (error) {
+                    console.log(error)
+                }                
+             } catch (error) {
+                console.log(error)
+             }
+             
+             
         }
         
     }

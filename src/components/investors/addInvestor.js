@@ -2,8 +2,7 @@ import { useState } from "react";
 import axios from 'axios';
 
 
-
-const AddBorrower = () => {
+const AddInvestor = () => {
     const userName={
         firstName : "",
         middleName : "",
@@ -25,14 +24,6 @@ const AddBorrower = () => {
         accountNumber : "",
         qrCode : ""
     }
-    const userWork={
-        jobTitle:"",
-        employer : "",
-        employmentYear: "",
-        coe: "",
-        payslip:"",
-        id:""
-    }
     const userOtherInfo={
         birthDate:"",
         validIds:""
@@ -42,7 +33,6 @@ const AddBorrower = () => {
     const [address, setUserAddress] = useState(userAddress)
     const [contact, setUserContact] = useState(userContact)
     const [bankAccount, setUserBank] = useState(userBank)
-    const [workDetails, setUserWork] = useState(userWork)
     const [otherInfo, setUserOtherInfo] = useState(userOtherInfo)
 
     async function handleSubmit(e){
@@ -67,18 +57,6 @@ const AddBorrower = () => {
             setErrorMsg("***Barangay is required")        
         }else if(address.zip === ''){
             setErrorMsg("***Zip code is required")        
-        }else if(workDetails.jobTitle === ''){
-            setErrorMsg("***Job role is required")        
-        }else if(workDetails.employer === ''){
-            setErrorMsg("***Employer is required")        
-        }else if(workDetails.employmentYear === ''){
-            setErrorMsg("***Years in current employer is required")        
-        }else if(workDetails.id === ''){
-            setErrorMsg("***Company ID is required")        
-        }else if(workDetails.coe === ''){
-            setErrorMsg("***COE is required")        
-        }else if(workDetails.payslip === ''){
-            setErrorMsg("***Payslip is required")        
         }else if(bankAccount.bankName === ''){
             setErrorMsg("***Bank name is required")        
         }else if(bankAccount.accountName === ''){
@@ -91,22 +69,20 @@ const AddBorrower = () => {
                 address,
                 contact,
                 bankAccount,
-                workDetails,
                 validIds:otherInfo.validIds,
                 birthDate:otherInfo.birthDate
             }
             try {
-                await axios.post(process.env.REACT_APP_API_URL + "/borrowers",userData)
+                await axios.post(process.env.REACT_APP_API_URL + "/investors",userData)
                 //clear states
                 setUserName(userName)
                 setUserAddress(userAddress)
                 setUserContact(userContact)
                 setUserBank(userBank)
-                setUserWork(userWork)
                 setErrorMsg('')
             } catch (error) {
                 if (error.response.data.code) setErrorMsg("***Email address already exist")
-            }                        
+            }                    
         }
     }
     function handleChangeName(e){
@@ -121,10 +97,7 @@ const AddBorrower = () => {
     function handleChangeBank(e){
         setUserBank({...bankAccount,[e.target.id]:e.target.value})
     }
-    function handleChangeWork(e){
-        setUserWork({...workDetails,[e.target.id]:e.target.value})
-    }
-    function handleChangeOtherInfo(e){
+    function handleChangeOtherInfo(e){     
         setUserOtherInfo({...otherInfo,[e.target.id]:e.target.value})
     }
     return ( 
@@ -132,7 +105,7 @@ const AddBorrower = () => {
             <form onSubmit={handleSubmit}>
                 <div className="row mb-5">                    
                     <div className='col-4'>
-                        <h2>Borrower's Information</h2>
+                        <h2>Investor's Information</h2>
                     </div>
                     <div className='col-1'></div>
                     <div className='col'>
@@ -216,56 +189,7 @@ const AddBorrower = () => {
                             <input value={address.zip} type="text" className="form-control" id="zip" placeholder="Zip" onChange={handleChangeAddress}/>
                         </div>
                     </div>
-                </div>
-                <div className="row mb-2">
-                    <h4>Work</h4>
-                </div>
-                <div className="row mb-3">
-                    <div className="col">
-                        <div className="form-group">
-                            <label>Job Role</label>
-                            <input value={workDetails.jobTitle} type="text" className="form-control" id="jobTitle" placeholder="e.g. CSR" onChange={handleChangeWork}/>
-                        </div>
-                    </div>
-                    <div className="col">
-                        <div className="form-group">
-                            <label>Employer</label>
-                            <input value={workDetails.employer} type="text" className="form-control" id="employer" placeholder="e.g. TTEC" onChange={handleChangeWork}/>
-                        </div>
-                    </div>
-                    <div className="col">
-                        <div className="form-group">
-                            <label>Years in current employer</label>
-                            <select className="form-control" value={workDetails.employmentYear} id="employmentYear" onChange={handleChangeWork} >
-                            <option value='' hidden>Select...</option>
-                            <option value='0-1'>0-1</option>
-                            <option value='1-3'>1-3</option>
-                            <option value='3-5'>3-5</option>
-                            <option value='5-10'>5-10</option>
-                            </select>
-                        </div>                                
-                    </div>  
-                    <div className="col">
-                        <div className="form-group">
-                            <label>Company ID</label>
-                            <input value={workDetails.id} type="text" className="form-control" id="id"  onChange={handleChangeWork}/>
-                        </div>
-                    </div>                  
-                </div>
-                <div className="row mb-3">                    
-                    <div className="col-3">
-                        <div className="form-group">
-                            <label>Certificate of Employment (COE)</label>
-                            <input value={workDetails.coe} type="text" className="form-control" id="coe" onChange={handleChangeWork}/>
-                        </div>
-                    </div>
-                    <div className="col-3">
-                        <div className="form-group">
-                            <label>Latest 3 Months Payslip</label>
-                            <input value={workDetails.payslip} type="text" className="form-control" id="payslip"  onChange={handleChangeWork}/>
-                        </div>
-                    </div>                    
-                </div>
+                </div>                
                 <div className="row mb-2">
                     <h4>Bank</h4>
                 </div>
@@ -303,4 +227,4 @@ const AddBorrower = () => {
      );
 }
  
-export default AddBorrower;
+export default AddInvestor;

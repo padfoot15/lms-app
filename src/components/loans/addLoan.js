@@ -37,8 +37,14 @@ const AddLoan = () => {
         }else if(loan.dueDate === ''){
             setErrorMsg("***Due date is required")        
         }else{
-            await axios.post(process.env.REACT_APP_API_URL + "/loans",loan)
-            setLoan(loanData)
+            try {
+                await axios.post(process.env.REACT_APP_API_URL + "/loans",loan)
+                //clear states
+                setLoan(loanData)
+                setErrorMsg('')
+            } catch (error) {
+                console.log(error)
+            }                        
         }
     }
 

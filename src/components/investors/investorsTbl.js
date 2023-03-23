@@ -1,23 +1,23 @@
-import BorrowersContent from './borrowersContent';
 import '../tables.css';
 import useFetch from '../../customHooks/useFetch';
 import { useState } from 'react';
+import InvestorsContent from './investorsContent';
 
-const BorrowersTable = () => {    
+const InvestorsTable = () => {    
 
-    const {data, loading} = useFetch('/borrowers')
+    const {data, loading} = useFetch('/investors')
     const [filter, setFilter] = useState('firstName')
     const [search, setSearch] = useState('')
       if(loading)return <h1>Loading...</h1>
 
-      function filterTbl(borrower){                                
-            if (filter.includes('Name')) return (borrower['name'][filter]).toLowerCase().includes(search)
+      function filterTbl(investor){                                
+            if (filter.includes('Name')) return (investor['name'][filter]).toLowerCase().includes(search)
             return data        
       }
         return (
             <>
                 <div className="d-flex align-items-center mt-5 justify-content-center">
-                    <h2 className='w-auto mx-5'>Borrowers</h2>
+                    <h2 className='w-auto mx-5'>Investors</h2>
                 </div>      
                 <div className="mb-2">
                     <div className='ms-5'>
@@ -47,8 +47,8 @@ const BorrowersTable = () => {
                         </tr> 
                     </thead>
                     <tbody className="table-group-divider">
-                    {data.filter(borrower => filterTbl(borrower)).map((b,index) => {
-                        return <BorrowersContent key={b._id} index={index+1} borrower={b} />
+                    {data.filter(investor => filterTbl(investor)).map((inv,index) => {
+                        return <InvestorsContent key={inv._id} index={index+1} investor={inv} />
                     })}
                     </tbody>
                 </table>
@@ -59,4 +59,4 @@ const BorrowersTable = () => {
    
 }
  
-export default BorrowersTable;
+export default InvestorsTable;

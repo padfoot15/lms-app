@@ -6,6 +6,8 @@ import LoansTable from './loans/loansTbl';
 import { useState } from 'react';
 import PaymentsTable from './payments/paymentsTbl';
 import AddPayment from './payments/addPayment';
+import AddInvestor from './investors/addInvestor';
+import InvestorsTable from './investors/investorsTbl';
 
 
 const MainTable = ({selected}) => {
@@ -45,6 +47,12 @@ const MainTable = ({selected}) => {
             return <AddPayment />
           }else{        
             return <PaymentsTable />
+          }        
+        }else if(selected==='investors'){
+          if(control.showNew){        
+            return <AddInvestor />
+          }else{        
+            return <InvestorsTable />
           }        
         }
         else{
