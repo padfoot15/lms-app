@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import useFetch from '../../customHooks/useFetch';
 import axios from 'axios';
+import { formatter } from '../../util/util';
 
 const AddPayment = () => {
     const paymentData = {
@@ -90,6 +91,9 @@ const AddPayment = () => {
     
     return ( 
         <>   
+        <div className="d-flex align-items-center mb-2 justify-content-center">
+            <h2>New Payment</h2>                    
+        </div>
         <div className="container border border-light border-5 mb-2">
             <form onSubmit={handleSubmit}>
                 <div className="row mb-5">                    
@@ -134,13 +138,13 @@ const AddPayment = () => {
                     <div className="col-3">
                         <div className="form-group">
                             <label>Principal Paid</label>
-                            <input type="text" className='form-control' id='principalPaid' value={payment.principalPaid} placeholder="0" disabled /> 
+                            <input type="text" className='form-control' id='principalPaid' value={formatter.format(payment.principalPaid)} placeholder="0" disabled /> 
                         </div>
                     </div>   
                     <div className="col-3">
                         <div className="form-group">
                             <label>Loan ID</label>
-                            <select className="form-control" id="loanId" value={payment.loanId} onChange={handleChange}>
+                            <select className="form-select" id="loanId" value={payment.loanId} onChange={handleChange}>
                                 <option value="" hidden>Select loan...</option>
                                     {data.map(loan => {
                                         return <option value={loan._id} key={loan._id}>{loan._id}</option>
@@ -161,7 +165,7 @@ const AddPayment = () => {
                     <div className="col-3">
                         <div className="form-group">
                         <label>Payment Channel</label>
-                                <select className="form-control" value={payment.paymentChannel} id="paymentChannel" onChange={handleChange}>
+                                <select className="form-select" value={payment.paymentChannel} id="paymentChannel" onChange={handleChange}>
                                     <option value="" hidden>Select...</option>
                                     <option value="BPI">BPI</option>
                                     <option value="Cash">Cash</option>
@@ -174,7 +178,7 @@ const AddPayment = () => {
                     <div className="col-3">
                         <div className="form-group">
                         <label>Status</label>
-                                <select className="form-control" value={payment.status} id="status" onChange={handleChange}>
+                                <select className="form-select" value={payment.status} id="status" onChange={handleChange}>
                                     <option value="" hidden>Select...</option>
                                     <option value="posted">Posted</option>
                                     <option value="received">Received</option>

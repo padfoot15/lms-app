@@ -39,15 +39,15 @@ const InvestmentsTable = () => {
                             <th  scope="col">Investor Name</th>
                             <th  scope="col">Amount</th>                            
                             <th  scope="col">Type</th>
-                            <th  scope="col">Term</th>
+                            <th  scope="col">Term (Years)</th>
                             <th  scope="col">Yearly Rate</th>
                             <th  scope="col">Monthly Rate</th>
                             <th  scope="col">Yearly Interest Amount</th>
                             <th  scope="col">Monthly Interest Amount</th>
                             <th  scope="col">Monthly Payout</th>
                             <th  scope="col">Invested Date</th>
-                            <th  scope="col">Payout Dates</th>
                             <th  scope="col">Balance</th>
+                            <th  scope="col">Start Date</th>
                             <th  scope="col">End Date</th>
                             <th  scope="col">Status</th>
                         </tr> 

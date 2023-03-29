@@ -101,6 +101,10 @@ const AddInvestor = () => {
         setUserOtherInfo({...otherInfo,[e.target.id]:e.target.value})
     }
     return ( 
+        <>
+        <div className="d-flex align-items-center mb-2 justify-content-center">
+            <h2>New Investor</h2>                    
+        </div>
         <div className="container border border-light border-5 mb-2">
             <form onSubmit={handleSubmit}>
                 <div className="row mb-5">                    
@@ -223,7 +227,8 @@ const AddInvestor = () => {
                         <button type="submit" className="btn btn-primary">Submit</button>
                 </div>                
             </form>
-        </div>        
+        </div> 
+    </>       
      );
 }
  

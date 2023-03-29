@@ -1,8 +1,6 @@
 import { useState } from "react";
 import axios from 'axios';
 
-
-
 const AddBorrower = () => {
     const userName={
         firstName : "",
@@ -128,6 +126,10 @@ const AddBorrower = () => {
         setUserOtherInfo({...otherInfo,[e.target.id]:e.target.value})
     }
     return ( 
+        <>
+        <div className="d-flex align-items-center mb-2 justify-content-center">
+            <h2>New Borrower</h2>                    
+        </div>
         <div className="container border border-light border-5 mb-2">
             <form onSubmit={handleSubmit}>
                 <div className="row mb-5">                    
@@ -178,7 +180,7 @@ const AddBorrower = () => {
                     <div className="col-2">
                         <div className="form-group">
                             <label>Birth Date</label>
-                            <input value={otherInfo.birthDate} type="date" className="form-control" id="birthDate" onChange={handleChangeOtherInfo}/>
+                            <input value={(new Date(otherInfo.birthDate)).toLocaleDateString('fr-CA')} type="date" className="form-control" id="birthDate" onChange={handleChangeOtherInfo}/>
                         </div>
                     </div>
                     <div className="col">
@@ -236,7 +238,7 @@ const AddBorrower = () => {
                     <div className="col">
                         <div className="form-group">
                             <label>Years in current employer</label>
-                            <select className="form-control" value={workDetails.employmentYear} id="employmentYear" onChange={handleChangeWork} >
+                            <select className="form-select" value={workDetails.employmentYear} id="employmentYear" onChange={handleChangeWork} >
                             <option value='' hidden>Select...</option>
                             <option value='0-1'>0-1</option>
                             <option value='1-3'>1-3</option>
@@ -299,7 +301,8 @@ const AddBorrower = () => {
                         <button type="submit" className="btn btn-primary">Submit</button>
                 </div>                
             </form>
-        </div>        
+        </div> 
+        </>       
      );
 }
  
