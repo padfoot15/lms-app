@@ -59,6 +59,13 @@ const AddLoan = () => {
         }
     }
 
+    async function getNewId(e){
+        e.preventDefault()
+        const res = await axios.get(process.env.REACT_APP_API_URL + "/loans/newId")        
+        setNewId(res.data.newId)
+        
+    }
+
     function handleChangeDate(e){
         let startDate = new Date(e.target.value)
         let dueDate = new Date(startDate.getFullYear(), startDate.getMonth() , startDate.getDate() + (parseInt(loan.term)*30))                                               
@@ -103,8 +110,8 @@ const AddLoan = () => {
             <h2>New Loan</h2>                    
         </div>
         <div className="container border border-light border-5 mb-2">
-        <button className='btn btn-link'>NEW ID</button>                 
-            <form onSubmit={handleSubmit}>                
+                        
+            <form>                
                 <div className="row mb-5">
                     <div className="col-4">
                         <h2 >Loan Information</h2>                      
@@ -115,11 +122,15 @@ const AddLoan = () => {
                     </div>
                 </div>
                 <div className="row mb-3">
-                    <div className='col-1'></div>
+                    <div className='col-1'>
+                        <div className="form-group">
+                            <button className='btn btn-link' onClick={getNewId}>NEW ID</button>                                                                   
+                        </div>
+                    </div>
                     <div className="col-2">
                         <div className="form-group">
-                        <label>Loan ID</label>                        
-                        <input type="text" className="form-control" id="loanId" value={loanId} disabled/>                                                                   
+                            <label>Loan ID</label>                        
+                            <input type="text" className="form-control" id="loanId" value={loanId} disabled/>                                                                   
                         </div>
                     </div> 
                     <div className="col-3">
@@ -207,7 +218,7 @@ const AddLoan = () => {
                                           
                 </div>
                     <div className="d-flex justify-content-center">
-                            <button type="submit" className="btn btn-primary" name='submit'>Submit</button>
+                            <button type="submit" className="btn btn-primary" name='submit' onClick={handleSubmit}>Submit</button>
                     </div>                
             </form>
         </div>         
