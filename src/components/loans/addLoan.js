@@ -32,19 +32,15 @@ const AddLoan = () => {
     if(loading)return <h1>Loading...</h1> 
 
     async function handleSubmit(e){
-        
-        if(loan.borrowerId === ''){
-            e.preventDefault();            
+        e.preventDefault(); 
+        if(loan.borrowerId === ''){         
             setErrorMsg("***Borrower is required")        
         }else if(loan.amount === '0'){
-            e.preventDefault();
             setErrorMsg("***Amount is required")        
         }else if(loan.startDate === ''){
-            setErrorMsg("***Start date is required")
-            e.preventDefault();        
+            setErrorMsg("***Start date is required")        
         }else if(loan.dueDate === ''){
-            setErrorMsg("***Due date is required") 
-            e.preventDefault();       
+            setErrorMsg("***Due date is required")        
         }else{
             try {
                 await axios.post(process.env.REACT_APP_API_URL + "/loans",loan)
@@ -53,8 +49,9 @@ const AddLoan = () => {
                 setNewId('')
                 setErrorMsg('')
             } catch (error) {
-                console.log(error)
-                e.preventDefault();
+                if (error.response.data.message === 'loan id exists'){
+                    setErrorMsg("***loan id exist, generate new id")
+                }
             }                        
         }
     }
@@ -62,8 +59,8 @@ const AddLoan = () => {
     async function getNewId(e){
         e.preventDefault()
         const res = await axios.get(process.env.REACT_APP_API_URL + "/loans/newId")        
+        setLoan({...loan,loanId:res.data.newId})
         setNewId(res.data.newId)
-        
     }
 
     function handleChangeDate(e){

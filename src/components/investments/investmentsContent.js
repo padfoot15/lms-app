@@ -4,7 +4,8 @@ const InvestmentsContent = ({investment, index}) => {
     return(
         <tr>
                 <td>{index}</td>
-                <td>{investment.investor.name.firstName + " " + investment.investor.name.lastName}</td>
+                <td>{investment.investmentId}</td>
+                <td>{investment.investor.name.firstName + " " + investment.investor.name.lastName}</td>                
                 <td>{formatter.format(investment.amount)}</td>                
                 <td>{investment.type}</td>
                 <td>{investment.term}</td>

@@ -39,14 +39,14 @@ const AddPayment = () => {
              try {
                 await axios.post(process.env.REACT_APP_API_URL + "/payments",payment)
                 //update balance        
-                let balance = data.filter(loan => loan._id === payment.loanId)[0].balance
+                let balance = data.filter(loan => loan.loanId === payment.loanId)[0].balance
                 balance = parseInt(balance) - payment.principalPaid - payment.interestPaid                
                 try {
                     await axios.put(process.env.REACT_APP_API_URL + "/loans/update",null,
                     {
                         params:{
                             balance,
-                            id:payment.loanId
+                            loanId:payment.loanId
                         }
                     })
                     //clear state
@@ -79,7 +79,7 @@ const AddPayment = () => {
         }
 
         if(e.target.id==='loanId'){
-            const borrower = data.filter(loan => loan._id === e.target.value)[0]
+            const borrower = data.filter(loan => loan.loanId === e.target.value)[0]
             borrowerId = borrower.borrowerId._id   
             const fullName = borrower.borrowerId.name.firstName + ' ' + borrower.borrowerId.name.lastName
             setBorrower(fullName)                           
@@ -147,7 +147,7 @@ const AddPayment = () => {
                             <select className="form-select" id="loanId" value={payment.loanId} onChange={handleChange}>
                                 <option value="" hidden>Select loan...</option>
                                     {data.map(loan => {
-                                        return <option value={loan._id} key={loan._id}>{loan._id}</option>
+                                        return <option value={loan.loanId} key={loan.loanId}>{loan.loanId}</option>
                                     })
                                     }
                             </select>

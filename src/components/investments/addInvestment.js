@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useFetch from '../../customHooks/useFetch';
 import { formatter } from '../../util/util';
 import axios from 'axios';
@@ -6,6 +6,7 @@ import axios from 'axios';
 const AddInvestment = () => {
     const investmentData = {
         investor : "",
+        investmentId : "",
         amount : "",
         type : "",
         term : "1",
@@ -20,12 +21,19 @@ const AddInvestment = () => {
         balance : "0",
         startDate : "",
         endDate : "",
-        status : "in-progress"
+        status : "In-progress"
     }
     const [errorMsg, setErrorMsg] = useState('')
     const [investment , setInvestment] = useState(investmentData)
-    const {data, loading} = useFetch('/investors')      
-
+    const {data, loading} = useFetch('/investors')  
+    const [investmentId, setNewId] = useState('')    
+    useEffect( ()=>{
+        async function getNewId(){
+          const res = await axios.get(process.env.REACT_APP_API_URL + "/investments/newId")        
+          setNewId(res.data.newId)
+        }
+        getNewId();
+      },[])
 
     if(loading)return <h1>Loading...</h1>     
 
@@ -49,9 +57,12 @@ const AddInvestment = () => {
                 await axios.post(process.env.REACT_APP_API_URL + "/investments",investment)  
                 //clear states
                 setInvestment(investmentData)   
-                setErrorMsg('')                           
+                setErrorMsg('')  
+                setNewId('')                         
              } catch (error) {
-                console.log(error)
+                if (error.response.data.message === 'investment id exists'){
+                    setErrorMsg("***investment id exist, generate new id")
+                }
              }                          
         }                                                   
     }
@@ -106,8 +117,16 @@ const AddInvestment = () => {
                 totalIntAmt,
                 balance,
                 startDate,
-                endDate
+                endDate,
+                investmentId                
             })
+    }
+
+    async function getNewId(e){
+        e.preventDefault()
+        const res = await axios.get(process.env.REACT_APP_API_URL + "/investments/newId")        
+        setInvestment({...investment,investmentId:res.data.newId})
+        setNewId(res.data.newId)
     }
     
     return ( 
@@ -127,6 +146,17 @@ const AddInvestment = () => {
                     </div>                    
                 </div>
                 <div className="row mb-3">
+                    <div className='col-1'>
+                        <div className="form-group">
+                            <button className='btn btn-link' onClick={getNewId}>NEW ID</button>                                                                   
+                        </div>
+                    </div>
+                    <div className="col-2">
+                        <div className="form-group">
+                            <label>Investment ID</label>                        
+                            <input type="text" className="form-control" id="investmentId" value={investmentId}  disabled/>                                                                   
+                        </div>
+                    </div>
                     <div className="col">
                         <div className="form-group">
                             <label>Investor</label>
@@ -164,7 +194,10 @@ const AddInvestment = () => {
                                     <option value="balloon">Balloon</option>
                                 </select>
                         </div>
-                    </div>
+                    </div>                    
+                </div>
+                
+                <div className="row mb-3">
                     <div className="col">
                         <div className="form-group">
                             <label>Term</label>
@@ -174,10 +207,7 @@ const AddInvestment = () => {
                                     <option value="5">5 Years</option>
                             </select>
                         </div>                        
-                    </div>
-                </div>
-                
-                <div className="row mb-3">                    
+                    </div>                    
                     <div className="col">
                         <div className="form-group">
                             <label>Rate Per Year</label>
@@ -216,17 +246,16 @@ const AddInvestment = () => {
                             <label>Interest Amount Per Year</label>
                             <input type="text" value={formatter.format(investment.intAmtPerYr)} className='form-control' disabled />                                               
                         </div>
-                    </div>
+                    </div>                                                               
+                </div>
+
+                <div className="row mb-3">
                     <div className="col">
                         <div className="form-group">
                             <label>Quarterly Payout</label>
                             <input type="text" value={formatter.format(investment.qrtrlyPayout)} className='form-control' disabled />                                    
                         </div>
-                    </div>  
-                                         
-                </div>
-
-                <div className="row mb-3"> 
+                    </div> 
                     <div className="col">
                         <div className="form-group">
                             <label>Total Interest Amount</label>

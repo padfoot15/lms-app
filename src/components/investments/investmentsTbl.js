@@ -36,6 +36,7 @@ const InvestmentsTable = () => {
                     <thead className="table-group-divider">
                         <tr>
                             <th  scope="col">No.</th>
+                            <th  scope="col">ID</th>
                             <th  scope="col">Investor Name</th>
                             <th  scope="col">Amount</th>                            
                             <th  scope="col">Type</th>
