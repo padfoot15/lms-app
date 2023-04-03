@@ -2,6 +2,7 @@ import { Button, Card, FormControl, FormGroup, FormLabel, Form, Alert } from 're
 import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { Container } from 'react-bootstrap';
 
 const SignUp = () => {
     const [isError, setError] = useState(false)
@@ -33,6 +34,11 @@ const SignUp = () => {
 
   return (    
     <>
+        <Container 
+            className='d-flex align-items-center justify-content-center'
+            style={{minHeight : "100vh"}}
+        >
+        <div className='w-100' style={{ maxWidth : "400px"}}>
         <Card>            
             <Card.Body>           
                 <p style={{color:"red",fontStyle:"italic"}}>{errMsg}</p>
@@ -58,6 +64,8 @@ const SignUp = () => {
         <div className='w-100 text-center mt-2'>
             Already have an account? <Link to="/login">Log In</Link>
         </div>
+        </div>
+        </Container>
     </>
   )
 }

@@ -1,6 +1,5 @@
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-//import ActionBtn from './actionBtn';
 import MainTable from './mainTable';
 
 const MainTab = () => {
@@ -15,6 +14,9 @@ const MainTab = () => {
         style={{
           fontSize:"large"
       }}>
+        <Tab eventKey="dashboard" title="DASHBOARD">
+          <MainTable selected={"dashboard"}/>
+        </Tab>
         <Tab eventKey="loans" title="LOANS">
           <MainTable selected={"loans"}/>
         </Tab>
@@ -28,7 +30,19 @@ const MainTab = () => {
           <MainTable selected={"investors"}/>
         </Tab>
         <Tab eventKey="investments" title="INVESTMENTS">
-          <MainTable selected={"investments"}/>
+          <MainTable selected={"investments"}/>          
+        </Tab>
+        <Tab eventKey="payout" title="PAYOUT">
+          <MainTable selected={"payout"}/>
+        </Tab>
+        <Tab eventKey="expenses" title="EXPENSES">
+          <MainTable selected={"expenses"}/>
+        </Tab>
+        <Tab eventKey="income" title="INCOME">
+          <MainTable selected={"income"}/>
+        </Tab>
+        <Tab eventKey="fund" title="FUND">
+          <MainTable selected={"fund"}/>
         </Tab>
       </Tabs>
     </>

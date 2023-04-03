@@ -10,6 +10,8 @@ import AddInvestor from './investors/addInvestor';
 import InvestorsTable from './investors/investorsTbl';
 import InvestmentsTable from './investments/investmentsTbl';
 import AddInvestment from './investments/addInvestment';
+import ExpensesTable from './expenses/expensesTbl';
+import AddExpense from './expenses/addExpense';
 
 
 const MainTable = ({selected}) => {
@@ -61,6 +63,12 @@ const MainTable = ({selected}) => {
             return <AddInvestment />
           }else{        
             return <InvestmentsTable />
+          }        
+        }else if(selected==='expenses'){
+          if(control.showNew){        
+            return <AddExpense />
+          }else{        
+            return <ExpensesTable />
           }        
         }else{
           return <h1>{`No content yet for ${selected}`}</h1>
