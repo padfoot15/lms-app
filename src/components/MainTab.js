@@ -32,8 +32,8 @@ const MainTab = () => {
         <Tab eventKey="investments" title="INVESTMENTS">
           <MainTable selected={"investments"}/>          
         </Tab>
-        <Tab eventKey="payout" title="PAYOUT">
-          <MainTable selected={"payout"}/>
+        <Tab eventKey="payouts" title="PAYOUTS">
+          <MainTable selected={"payouts"}/>
         </Tab>
         <Tab eventKey="expenses" title="EXPENSES">
           <MainTable selected={"expenses"}/>
