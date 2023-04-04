@@ -14,11 +14,14 @@ import ExpensesTable from './expenses/expensesTbl';
 import AddExpense from './expenses/addExpense';
 import PayoutsTable from './payouts/payoutsTbl';
 import AddPayout from './payouts/addPayout';
+import AddIncome from './income/addIncome';
+import IncomeTable from './income/incomeTbl';
 
 
 const MainTable = ({selected}) => {
 
       const [control , setControl] = useState({showView : true, showNew: false})
+      console.log(selected)
     
       const showNew = () => {
         setControl({
@@ -77,6 +80,12 @@ const MainTable = ({selected}) => {
             return <AddPayout />
           }else{        
             return <PayoutsTable />
+          }        
+        }else if(selected==='income'){
+          if(control.showNew){        
+            return <AddIncome />
+          }else{        
+            return <IncomeTable />
           }        
         }else{
           return <h1>{`No content yet for ${selected}`}</h1>
