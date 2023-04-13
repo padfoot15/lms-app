@@ -7,7 +7,7 @@ import {  useState } from 'react';
 const LoansTable = () => {  
     const {data, loading} = useFetch('/loans')    
     const [filter, setFilter] = useState('status')
-    const [search, setSearch] = useState('')
+    const [search, setSearch] = useState('in-progress')
     if(loading) return <h1>Loading...</h1>
 
     function filterTbl(records){
